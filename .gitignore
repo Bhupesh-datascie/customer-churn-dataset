@@ -1,5 +1,6 @@
 *.xlsx
 *.csv
+!churn_dataset_anonymized.csv
 *.pkl
 *.joblib
 *.ipynb
