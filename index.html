@@ -6,29 +6,678 @@
   <meta name="description" content="Interactive telecom customer churn analysis portfolio project.">
   <title>Churn Lens | Telecom Retention Intelligence</title>
   <style>
-    :root{--ink:#17202a;--muted:#65717c;--paper:#f5f6f2;--card:#fff;--line:#dfe4df;--teal:#087f8c;--coral:#ef6a5b;--yellow:#f2c14e;--navy:#17324d}
-    *{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--paper);font-family:Georgia,'Times New Roman',serif}button,input,select{font:inherit}.shell{max-width:1180px;margin:auto;padding:28px 24px 64px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:24px;border-bottom:1px solid var(--line);padding-bottom:20px}.brand{display:flex;align-items:center;gap:12px;font-weight:bold;letter-spacing:.04em}.mark{width:34px;height:34px;display:grid;place-items:center;background:var(--teal);color:#fff;font-family:Arial,sans-serif;font-weight:800;border-radius:50%}.source{color:var(--muted);font:12px Arial,sans-serif}
-    .hero{display:grid;grid-template-columns:1.25fr .75fr;gap:48px;padding:72px 0 48px}.eyebrow{color:var(--coral);font:700 12px Arial,sans-serif;text-transform:uppercase;letter-spacing:.16em}h1{font-size:clamp(44px,7vw,82px);line-height:.95;margin:16px 0 22px;max-width:740px;font-weight:500;letter-spacing:0}.hero p{max-width:650px;color:var(--muted);font:18px/1.6 Arial,sans-serif;margin:0}.signal{border-left:4px solid var(--yellow);padding:14px 0 14px 22px;align-self:end}.signal strong{display:block;color:var(--navy);font-size:42px;font-weight:500}.signal span{color:var(--muted);font:13px Arial,sans-serif}
-    .tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:24px}.tab{border:0;background:transparent;color:var(--muted);cursor:pointer;padding:12px 16px;border-bottom:3px solid transparent;font:700 12px Arial,sans-serif;text-transform:uppercase;letter-spacing:.08em}.tab.active,.tab:hover{color:var(--teal);border-color:var(--teal)}.panel{display:none;animation:rise .45s ease both}.panel.active{display:block}
-    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.metric,.chart,.simulator{background:var(--card);border:1px solid var(--line);padding:22px}.metric label{color:var(--muted);font:11px Arial,sans-serif;text-transform:uppercase;letter-spacing:.1em}.metric strong{display:block;font-size:36px;font-weight:500;margin:12px 0 4px;color:var(--navy)}.metric small{color:var(--muted);font:12px Arial,sans-serif}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}.chart h2,.simulator h2{margin:0 0 6px;font-size:23px;font-weight:500}.chart p,.simulator p{color:var(--muted);font:13px/1.5 Arial,sans-serif;margin:0 0 22px}
-    .bar-row{display:grid;grid-template-columns:125px 1fr 52px;align-items:center;gap:10px;margin:14px 0;font:12px Arial,sans-serif}.bar{height:10px;background:#e9eeea;overflow:hidden}.bar i{display:block;height:100%;background:var(--teal);transform-origin:left;animation:grow .8s ease both}.bar-row b{color:var(--muted);text-align:right;font-weight:normal}.donut-wrap{display:flex;align-items:center;gap:28px;min-height:220px}.donut{width:170px;height:170px;border-radius:50%;background:conic-gradient(var(--coral) 0 26.6%,var(--teal) 26.6% 100%);position:relative;flex:0 0 auto}.donut:after{content:'26.6%';position:absolute;inset:28px;display:grid;place-items:center;border-radius:50%;background:#fff;color:var(--navy);font-size:25px}.legend{font:13px/2 Arial,sans-serif;color:var(--muted)}.legend span{display:inline-block;width:10px;height:10px;margin-right:8px;background:var(--coral)}.legend .kept{background:var(--teal)}
-    .simulator{margin-top:16px;background:var(--navy);color:#fff;border:0}.simulator p{color:#bbcad3}.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.control label{display:block;color:#bbcad3;font:11px Arial,sans-serif;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}.control select,.control input{width:100%;accent-color:var(--yellow)}select{padding:10px;background:#fff;border:0;color:var(--ink)}.score{display:flex;align-items:center;gap:24px;border-top:1px solid #3d566b;margin-top:24px;padding-top:20px}.score strong{font-size:42px;font-weight:500;color:var(--yellow)}.score span{color:#dce5e9;font:14px/1.4 Arial,sans-serif}
-    .method{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}.method article{padding:22px;border-top:4px solid var(--teal);background:#fff}.method h2{font-size:21px;font-weight:500;margin:0 0 10px}.method p{color:var(--muted);font:14px/1.6 Arial,sans-serif;margin:0}footer{margin-top:46px;color:var(--muted);font:12px Arial,sans-serif;display:flex;justify-content:space-between;gap:20px}@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-    @media(max-width:760px){.shell{padding:20px 16px 48px}header{align-items:flex-start;flex-direction:column}.hero{grid-template-columns:1fr;gap:28px;padding:50px 0 34px}.metrics,.grid,.method{grid-template-columns:1fr 1fr}.controls{grid-template-columns:1fr}.donut-wrap{flex-direction:column;align-items:flex-start}footer{flex-direction:column}}@media(max-width:480px){.metrics,.grid,.method{grid-template-columns:1fr}.tabs{overflow:auto}.tab{white-space:nowrap;padding-inline:10px}}
+    :root {
+      --ink: #17202a;
+      --muted: #65717c;
+      --paper: #f5f6f2;
+      --card: #fff;
+      --line: #dfe4df;
+      --teal: #087f8c;
+      --coral: #ef6a5b;
+      --yellow: #f2c14e;
+      --navy: #17324d;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+    
+    button, input, select {
+      font: inherit;
+    }
+    
+    .shell {
+      max-width: 1180px;
+      margin: auto;
+      padding: 28px 24px 64px;
+    }
+    
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 20px;
+    }
+    
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: bold;
+      letter-spacing: 0.04em;
+    }
+    
+    .mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      background: var(--teal);
+      color: #fff;
+      font-family: Arial, sans-serif;
+      font-weight: 800;
+      border-radius: 50%;
+    }
+    
+    .source {
+      color: var(--muted);
+      font: 12px Arial, sans-serif;
+    }
+    
+    .hero {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 48px;
+      padding: 72px 0 48px;
+    }
+    
+    .eyebrow {
+      color: var(--coral);
+      font: 700 12px Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+    
+    h1 {
+      font-size: clamp(44px, 7vw, 82px);
+      line-height: 0.95;
+      margin: 16px 0 22px;
+      max-width: 740px;
+      font-weight: 500;
+      letter-spacing: 0;
+    }
+    
+    .hero p {
+      max-width: 650px;
+      color: var(--muted);
+      font: 18px/1.6 Arial, sans-serif;
+      margin: 0;
+    }
+    
+    .signal {
+      border-left: 4px solid var(--yellow);
+      padding: 14px 0 14px 22px;
+      align-self: end;
+    }
+    
+    .signal strong {
+      display: block;
+      color: var(--navy);
+      font-size: 42px;
+      font-weight: 500;
+    }
+    
+    .signal span {
+      color: var(--muted);
+      font: 13px Arial, sans-serif;
+    }
+    
+    .tabs {
+      display: flex;
+      gap: 6px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 24px;
+    }
+    
+    .tab {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 12px 16px;
+      border-bottom: 3px solid transparent;
+      font: 700 12px Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    
+    .tab.active,
+    .tab:hover {
+      color: var(--teal);
+      border-color: var(--teal);
+    }
+    
+    .panel {
+      display: none;
+      animation: rise 0.45s ease both;
+    }
+    
+    .panel.active {
+      display: block;
+    }
+    
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    
+    .metric,
+    .chart,
+    .simulator {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 22px;
+    }
+    
+    .metric label {
+      color: var(--muted);
+      font: 11px Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    
+    .metric strong {
+      display: block;
+      font-size: 36px;
+      font-weight: 500;
+      margin: 12px 0 4px;
+      color: var(--navy);
+    }
+    
+    .metric small {
+      color: var(--muted);
+      font: 12px Arial, sans-serif;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    
+    .chart h2,
+    .simulator h2 {
+      margin: 0 0 6px;
+      font-size: 23px;
+      font-weight: 500;
+    }
+    
+    .chart p,
+    .simulator p {
+      color: var(--muted);
+      font: 13px/1.5 Arial, sans-serif;
+      margin: 0 0 22px;
+    }
+    
+    .bar-row {
+      display: grid;
+      grid-template-columns: 125px 1fr 52px;
+      align-items: center;
+      gap: 10px;
+      margin: 14px 0;
+      font: 12px Arial, sans-serif;
+    }
+    
+    .bar {
+      height: 10px;
+      background: #e9eeea;
+      overflow: hidden;
+    }
+    
+    .bar i {
+      display: block;
+      height: 100%;
+      background: var(--teal);
+      transform-origin: left;
+      animation: grow 0.8s ease both;
+    }
+    
+    .bar-row b {
+      color: var(--muted);
+      text-align: right;
+      font-weight: normal;
+    }
+    
+    .donut-wrap {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      min-height: 220px;
+    }
+    
+    .donut {
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background: conic-gradient(var(--coral) 0 26.6%, var(--teal) 26.6% 100%);
+      position: relative;
+      flex: 0 0 auto;
+    }
+    
+    .donut::after {
+      content: '26.6%';
+      position: absolute;
+      inset: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #fff;
+      color: var(--navy);
+      font-size: 25px;
+    }
+    
+    .legend {
+      font: 13px/2 Arial, sans-serif;
+      color: var(--muted);
+    }
+    
+    .legend span {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin-right: 8px;
+      background: var(--coral);
+    }
+    
+    .legend .kept {
+      background: var(--teal);
+    }
+    
+    .simulator {
+      margin-top: 16px;
+      background: var(--navy);
+      color: #fff;
+      border: 0;
+    }
+    
+    .simulator p {
+      color: #bbcad3;
+    }
+    
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    
+    .control label {
+      display: block;
+      color: #bbcad3;
+      font: 11px Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+    
+    .control select,
+    .control input {
+      width: 100%;
+      accent-color: var(--yellow);
+    }
+    
+    select {
+      padding: 10px;
+      background: #fff;
+      border: 0;
+      color: var(--ink);
+    }
+    
+    .score {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      border-top: 1px solid #3d566b;
+      margin-top: 24px;
+      padding-top: 20px;
+    }
+    
+    .score strong {
+      font-size: 42px;
+      font-weight: 500;
+      color: var(--yellow);
+    }
+    
+    .score span {
+      color: #dce5e9;
+      font: 14px/1.4 Arial, sans-serif;
+    }
+    
+    .method {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+    
+    .method article {
+      padding: 22px;
+      border-top: 4px solid var(--teal);
+      background: #fff;
+    }
+    
+    .method h2 {
+      font-size: 21px;
+      font-weight: 500;
+      margin: 0 0 10px;
+    }
+    
+    .method p {
+      color: var(--muted);
+      font: 14px/1.6 Arial, sans-serif;
+      margin: 0;
+    }
+    
+    footer {
+      margin-top: 46px;
+      color: var(--muted);
+      font: 12px Arial, sans-serif;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+    
+    @keyframes grow {
+      from {
+        transform: scaleX(0);
+      }
+      to {
+        transform: scaleX(1);
+      }
+    }
+    
+    @media (max-width: 760px) {
+      .shell {
+        padding: 20px 16px 48px;
+      }
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 50px 0 34px;
+      }
+      .metrics,
+      .grid,
+      .method {
+        grid-template-columns: 1fr 1fr;
+      }
+      .controls {
+        grid-template-columns: 1fr;
+      }
+      .donut-wrap {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      footer {
+        flex-direction: column;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .metrics,
+      .grid,
+      .method {
+        grid-template-columns: 1fr;
+      }
+      .tabs {
+        overflow: auto;
+      }
+      .tab {
+        white-space: nowrap;
+        padding-inline: 10px;
+      }
+    }
   </style>
 </head>
-<body><div class="shell">
-  <header><div class="brand"><span class="mark">C</span> CHURN LENS</div><div class="source">TELECOM RETENTION INTELLIGENCE / PORTFOLIO CASE STUDY</div></header>
-  <section class="hero"><div><div class="eyebrow">Data science · classification · customer retention</div><h1>Find the customers most likely to leave.</h1><p>An interactive readout of a telecom churn project, translating exploratory analysis and a Random Forest model into decisions a retention team can act on.</p></div><div class="signal"><strong>7,021</strong><span>clean customer records analyzed after duplicate removal</span></div></section>
-  <nav class="tabs" aria-label="Dashboard sections"><button class="tab active" data-tab="overview">Overview</button><button class="tab" data-tab="drivers">Churn drivers</button><button class="tab" data-tab="simulator">Risk simulator</button></nav>
-  <main>
-    <section class="panel active" id="overview"><div class="metrics"><div class="metric"><label>Churn rate</label><strong>26.6%</strong><small>1,869 customers in the source cohort</small></div><div class="metric"><label>Test accuracy</label><strong>80%</strong><small>Evaluated on 1,405 held-out records</small></div><div class="metric"><label>Churn recall</label><strong>53%</strong><small>Recall for the at-risk class</small></div><div class="metric"><label>Features</label><strong>19</strong><small>Encoded behavioral and billing signals</small></div></div><div class="grid"><div class="chart"><h2>The retention gap</h2><p>Churn is a minority outcome, making recall as important as headline accuracy.</p><div class="donut-wrap"><div class="donut" aria-label="26.6 percent churn rate"></div><div class="legend"><div><span></span>Churned · 1,869</div><div><span class="kept"></span>Retained · 5,152</div><div>Sample · 7,021 cleaned rows</div></div></div></div><div class="chart"><h2>Model scorecard</h2><p>The classifier is strong at recognizing retention and more conservative on churn.</p><div class="bar-row"><span>Accuracy</span><div class="bar"><i style="width:80%"></i></div><b>0.80</b></div><div class="bar-row"><span>Retained recall</span><div class="bar"><i style="width:90%"></i></div><b>0.90</b></div><div class="bar-row"><span>Churn recall</span><div class="bar"><i style="width:53%;background:var(--coral)"></i></div><b>0.53</b></div><div class="bar-row"><span>Churn F1</span><div class="bar"><i style="width:58%;background:var(--yellow)"></i></div><b>0.58</b></div></div></div></section>
-    <section class="panel" id="drivers"><div class="chart"><h2>What moves the prediction?</h2><p>Random Forest feature importance from the trained analysis. Higher values indicate greater contribution to model decisions, not causation.</p><div class="bar-row"><span>Total charges</span><div class="bar"><i style="width:100%"></i></div><b>18.9%</b></div><div class="bar-row"><span>Monthly charges</span><div class="bar"><i style="width:95.5%"></i></div><b>18.0%</b></div><div class="bar-row"><span>Tenure</span><div class="bar"><i style="width:82%"></i></div><b>15.5%</b></div><div class="bar-row"><span>Contract</span><div class="bar"><i style="width:40%"></i></div><b>7.5%</b></div><div class="bar-row"><span>Payment method</span><div class="bar"><i style="width:27%"></i></div><b>5.0%</b></div><div class="bar-row"><span>Online security</span><div class="bar"><i style="width:25.5%"></i></div><b>4.8%</b></div><div class="bar-row"><span>Tech support</span><div class="bar"><i style="width:23.6%"></i></div><b>4.5%</b></div></div><div class="method"><article><h2>Billing exposure</h2><p>Monthly and total charges are the strongest signal group. Evaluate retention offers alongside pricing and value perception.</p></article><article><h2>Early lifecycle</h2><p>Tenure ranks third, suggesting the first months deserve deliberate onboarding and proactive support.</p></article><article><h2>Contract context</h2><p>Contract and payment method add behavioral context for prioritizing outreach, rather than standalone explanations.</p></article></div></section>
-    <section class="panel" id="simulator"><div class="simulator"><h2>Explore a customer profile</h2><p>Adjust the profile to see a transparent, illustrative risk signal. This is a portfolio demo, not a live scoring endpoint.</p><div class="controls"><div class="control"><label for="contract">Contract</label><select id="contract"><option value="0">Month-to-month</option><option value="-12">One year</option><option value="-20">Two year</option></select></div><div class="control"><label for="support">Tech support</label><select id="support"><option value="8">No support</option><option value="0">Has support</option></select></div><div class="control"><label for="tenure">Tenure: <output id="tenureValue">6</output> months</label><input id="tenure" type="range" min="1" max="72" value="6"></div></div><div class="score"><strong id="riskScore">72%</strong><span id="riskText">Illustrative elevated risk. A month-to-month customer early in their lifecycle with no support is a priority for proactive outreach.</span></div></div></section>
-  </main><footer><span>Built from the accompanying notebook analysis · Aggregate insights only</span><span>Detailed methodology: techno_churn.html</span></footer>
-  </div><script>
-    const tabs=document.querySelectorAll('.tab'),panels=document.querySelectorAll('.panel');tabs.forEach(tab=>tab.addEventListener('click',()=>{tabs.forEach(item=>item.classList.remove('active'));panels.forEach(panel=>panel.classList.remove('active'));tab.classList.add('active');document.getElementById(tab.dataset.tab).classList.add('active')}));
-    const contract=document.getElementById('contract'),support=document.getElementById('support'),tenure=document.getElementById('tenure');function updateRisk(){const months=Number(tenure.value),score=Math.max(8,Math.min(92,54-Number(contract.value)+Number(support.value)+Math.max(0,18-months)*1.4));document.getElementById('tenureValue').value=months;document.getElementById('riskScore').textContent=Math.round(score)+'%';document.getElementById('riskText').textContent=score>60?'Illustrative elevated risk. Prioritize onboarding, support, and a contract conversation.':'Illustrative moderate-to-low risk. Continue value-led engagement and monitor billing changes.'} [contract,support,tenure].forEach(input=>input.addEventListener('input',updateRisk));
+<body>
+  <div class="shell">
+    <header>
+      <div class="brand">
+        <span class="mark">C</span> CHURN LENS
+      </div>
+      <div class="source">TELECOM RETENTION INTELLIGENCE / PORTFOLIO CASE STUDY</div>
+    </header>
+    
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Data science · classification · customer retention</div>
+        <h1>Find the customers most likely to leave.</h1>
+        <p>An interactive readout of a telecom churn project, translating exploratory analysis and a Random Forest model into decisions a retention team can act on.</p>
+      </div>
+      <div class="signal">
+        <strong>7,021</strong>
+        <span>clean customer records analyzed after duplicate removal</span>
+      </div>
+    </section>
+    
+    <nav class="tabs" aria-label="Dashboard sections">
+      <button class="tab active" data-tab="overview">Overview</button>
+      <button class="tab" data-tab="drivers">Churn drivers</button>
+      <button class="tab" data-tab="simulator">Risk simulator</button>
+    </nav>
+    
+    <main>
+      <section class="panel active" id="overview">
+        <div class="metrics">
+          <div class="metric">
+            <label>Churn rate</label>
+            <strong>26.6%</strong>
+            <small>1,869 customers in the source cohort</small>
+          </div>
+          <div class="metric">
+            <label>Test accuracy</label>
+            <strong>80%</strong>
+            <small>Evaluated on 1,405 held-out records</small>
+          </div>
+          <div class="metric">
+            <label>Churn recall</label>
+            <strong>53%</strong>
+            <small>Recall for the at-risk class</small>
+          </div>
+          <div class="metric">
+            <label>Features</label>
+            <strong>19</strong>
+            <small>Encoded behavioral and billing signals</small>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="chart">
+            <h2>The retention gap</h2>
+            <p>Churn is a minority outcome, making recall as important as headline accuracy.</p>
+            <div class="donut-wrap">
+              <div class="donut" aria-label="26.6 percent churn rate"></div>
+              <div class="legend">
+                <div><span></span>Churned · 1,869</div>
+                <div><span class="kept"></span>Retained · 5,152</div>
+                <div>Sample · 7,021 cleaned rows</div>
+              </div>
+            </div>
+          </div>
+          <div class="chart">
+            <h2>Model scorecard</h2>
+            <p>The classifier is strong at recognizing retention and more conservative on churn.</p>
+            <div class="bar-row">
+              <span>Accuracy</span>
+              <div class="bar"><i style="width:80%"></i></div>
+              <b>0.80</b>
+            </div>
+            <div class="bar-row">
+              <span>Retained recall</span>
+              <div class="bar"><i style="width:90%"></i></div>
+              <b>0.90</b>
+            </div>
+            <div class="bar-row">
+              <span>Churn recall</span>
+              <div class="bar"><i style="width:53%;background:var(--coral)"></i></div>
+              <b>0.53</b>
+            </div>
+            <div class="bar-row">
+              <span>Churn F1</span>
+              <div class="bar"><i style="width:58%;background:var(--yellow)"></i></div>
+              <b>0.58</b>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section class="panel" id="drivers">
+        <div class="chart">
+          <h2>What moves the prediction?</h2>
+          <p>Random Forest feature importance from the trained analysis. Higher values indicate greater contribution to model decisions, not causation.</p>
+          <div class="bar-row">
+            <span>Total charges</span>
+            <div class="bar"><i style="width:100%"></i></div>
+            <b>18.9%</b>
+          </div>
+          <div class="bar-row">
+            <span>Monthly charges</span>
+            <div class="bar"><i style="width:95.5%"></i></div>
+            <b>18.0%</b>
+          </div>
+          <div class="bar-row">
+            <span>Tenure</span>
+            <div class="bar"><i style="width:82%"></i></div>
+            <b>15.5%</b>
+          </div>
+          <div class="bar-row">
+            <span>Contract</span>
+            <div class="bar"><i style="width:40%"></i></div>
+            <b>7.5%</b>
+          </div>
+          <div class="bar-row">
+            <span>Payment method</span>
+            <div class="bar"><i style="width:27%"></i></div>
+            <b>5.0%</b>
+          </div>
+          <div class="bar-row">
+            <span>Online security</span>
+            <div class="bar"><i style="width:25.5%"></i></div>
+            <b>4.8%</b>
+          </div>
+          <div class="bar-row">
+            <span>Tech support</span>
+            <div class="bar"><i style="width:23.6%"></i></div>
+            <b>4.5%</b>
+          </div>
+        </div>
+        <div class="method">
+          <article>
+            <h2>Billing exposure</h2>
+            <p>Monthly and total charges are the strongest signal group. Evaluate retention offers alongside pricing and value perception.</p>
+          </article>
+          <article>
+            <h2>Early lifecycle</h2>
+            <p>Tenure ranks third, suggesting the first months deserve deliberate onboarding and proactive support.</p>
+          </article>
+          <article>
+            <h2>Contract context</h2>
+            <p>Contract and payment method add behavioral context for prioritizing outreach, rather than standalone explanations.</p>
+          </article>
+        </div>
+      </section>
+      
+      <section class="panel" id="simulator">
+        <div class="simulator">
+          <h2>Explore a customer profile</h2>
+          <p>Adjust the profile to see a transparent, illustrative risk signal. This is a portfolio demo, not a live scoring endpoint.</p>
+          <div class="controls">
+            <div class="control">
+              <label for="contract">Contract</label>
+              <select id="contract">
+                <option value="0">Month-to-month</option>
+                <option value="-12">One year</option>
+                <option value="-20">Two year</option>
+              </select>
+            </div>
+            <div class="control">
+              <label for="support">Tech support</label>
+              <select id="support">
+                <option value="8">No support</option>
+                <option value="0">Has support</option>
+              </select>
+            </div>
+            <div class="control">
+              <label for="tenure">Tenure: <output id="tenureValue">6</output> months</label>
+              <input id="tenure" type="range" min="1" max="72" value="6">
+            </div>
+          </div>
+          <div class="score">
+            <strong id="riskScore">72%</strong>
+            <span id="riskText">Illustrative elevated risk. A month-to-month customer early in their lifecycle with no support is a priority for proactive outreach.</span>
+          </div>
+        </div>
+      </section>
+    </main>
+    
+    <footer>
+      <span>Built from the accompanying notebook analysis · Aggregate insights only</span>
+      <span>Detailed methodology: techno_churn.html</span>
+    </footer>
+  </div>
+  
+  <script>
+    // Tab navigation
+    const tabs = document.querySelectorAll('.tab');
+    const panels = document.querySelectorAll('.panel');
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(item => item.classList.remove('active'));
+        panels.forEach(panel => panel.classList.remove('active'));
+        
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+      });
+    });
+    
+    // Risk simulator logic
+    const contract = document.getElementById('contract');
+    const support = document.getElementById('support');
+    const tenure = document.getElementById('tenure');
+    
+    function updateRisk() {
+      const months = Number(tenure.value);
+      const contractImpact = Number(contract.value);
+      const supportImpact = Number(support.value);
+      const tenureImpact = Math.max(0, 18 - months) * 1.4;
+      
+      const baseScore = 54;
+      let score = baseScore - contractImpact + supportImpact + tenureImpact;
+      
+      // Clamp score between 8 and 92
+      score = Math.max(8, Math.min(92, score));
+      
+      document.getElementById('tenureValue').value = months;
+      document.getElementById('riskScore').textContent = Math.round(score) + '%';
+      
+      if (score > 60) {
+        document.getElementById('riskText').textContent = 'Illustrative elevated risk. Prioritize onboarding, support, and a contract conversation.';
+      } else {
+        document.getElementById('riskText').textContent = 'Illustrative moderate-to-low risk. Continue value-led engagement and monitor billing changes.';
+      }
+    }
+    
+    // Add event listeners
+    [contract, support, tenure].forEach(input => {
+      input.addEventListener('input', updateRisk);
+    });
+    
+    // Initialize risk score on page load
+    updateRisk();
   </script>
-</body></html>
+</body>
+</html>
