@@ -16,7 +16,7 @@ Open `index.html` in a browser. The dashboard works without a build step or back
 
 ## Privacy
 
-The repository intentionally contains no raw customer dataset, customer IDs, serialized model, or exported CSV. The dashboard uses aggregate results from the analysis only.
+The repository contains an anonymized CSV for reproducibility. It intentionally excludes customer IDs, the raw workbook, serialized model files, and the notebook export. The dashboard uses aggregate results from the analysis.
 
 ## Stack
 
