@@ -9,7 +9,7 @@ Open `index.html` in a browser. The dashboard works without a build step or back
 ## Highlights
 
 - 7,043 source records, cleaned to 7,021 after duplicate removal
-- 26.6% churn rate in the cleaned cohort
+- 26.6% churn rate in the original 7,043-row cohort
 - Random Forest test accuracy: 80%
 - Churn-class recall: 53%
 - Feature importance analysis across 19 encoded predictors
